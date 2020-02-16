@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<form method="POST" action="/logged/">
+  {% csrf_token %}
+  bot name:
+  <input type="text" name="bot_name">
+  &emsp;&emsp;&emsp; streamer name:
+  <input type="text" name="streamer_name">
+  &emsp;&emsp;&emsp; stream token:
+  <input type="text" name="stream_token"><br/><br/>
+  <input type="submit" value="Validé">
+
+</form>
+
+</div>
+
+{% endblock %}

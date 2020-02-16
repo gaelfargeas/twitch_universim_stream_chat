@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block page_content %}
+{% csrf_token %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="panel panel-twitch">
+        <div class="panel-heading-twitch"><b>{{streamer_name}}</b> STREAM CHAT</div>
+        <div class="panel-body" style="height: 600px;">
+
+          <div class="chat_class" style="height: 580px;">
+
+            <textarea readonly form="chat_class" wrap="soft" style="width:100%; height:580px; border:none; resize:none;"
+              id="streamer_chat_TA" cols="100" rows="1"> </textarea>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-twitch">
+        <div class="panel-heading-twitch"><b>{{streamer_name}}</b> TAGGED CHAT</div>
+        <div class="panel-body" style="height: 600px;">
+          <div class="chat_class" style="height: 580px;">
+
+            <textarea readonly form="chat_class" wrap="soft" style="width:100%; height:580px; border:none; resize:none;"
+              id="streamer_tagged_chat_TA" cols="100" rows="1"> </textarea>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+  var st_chat = document.getElementById("streamer_chat_TA");
+  var st_tagged_chat = document.getElementById("streamer_tagged_chat_TA");
+
+  var streamer_name = "{{streamer_name}}";
+  var stream_token = "{{stream_token}}";
+  var bot_name = "{{bot_name}}";
+
+  var chat_socket = new WebSocket("ws://irc-ws.chat.twitch.tv:80");
+
+  chat_socket.onopen = function open() {
+    chat_socket.send("PASS " + stream_token + "\n");
+    chat_socket.send("NICK the_universim_chat\n");
+    chat_socket.send("JOIN #" + streamer_name + "\n");
+
+  };
+
+  chat_socket.onmessage = function message(event) {
+
+    if (event.data.startsWith("PING")) {
+      chat_socket.send("PONG\n")
+
+    } else if (event.data.includes(":End of /NAMES list") == false) {
+
+      var verif_viewer_start_message = (event.data.split(".tmi.twitch.tv")[1]).split(":")[1];
+
+      if (verif_viewer_start_message.startsWith("#") == false) {
+
+        var complet_message = event.data.split(".tmi.twitch.tv")[1]
+        // tag #wiewer_name:wiewer_mesage
+
+        var tmp = complet_message.split("#");
+
+        var viewer_tag = tmp[0];
+        var viewer_name = tmp[1].split(":")[0];
+
+        tmp.shift(); //#wiewer_name:wiewer_mesage
+        
+        tmp = tmp.join("#");
+        tmp = tmp.split(":"); //#wiewer_name , wiewer_mesage
+        tmp.shift(); //wiewer_mesage
+        tmp = tmp.join(":"); // regroup wiewer_mesage if they are # or : carast( splitted previously
+
+        var viewer_message = tmp;
+
+        st_chat.value += viewer_tag + viewer_name + ": " + viewer_message;
+
+        if (viewer_message.includes("@"+streamer_name)) {
+          st_tagged_chat.value += viewer_message;
+        }
+
+
+
+
+      }
+    }
+
+
+
+  }
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+
+body{
+
+text-align:center;
+
+}
+
+.page-header {
+    background-color: #4B0082;
+}
+
+.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+    color: #ffffff;
+    text-align: center;
+    font-size: 24pt;
+    text-decoration: none;
+    padding-top: 10px;
+
+
+}
+
+footer{
+
+background:#000000;
+
+color:#00BFFF;
+
+text-align:center;
+
+position:fixed;
+
+bottom:0;
+
+width:100%;
+}
+
+.chat_class{
+    overflow-y: auto;
+    overflow-x: hidden; 
+    text-align: left;
+    font-weight: 700;
+    text-align: justify;
+    min-height: 800px;
+}
+  
+.panel-twitch{
+    border-color:#4B0082;
+    border-top-color:#ddd;
+    background-color: #FFF;   
+    color: black;
+    
+
+    
+}
+
+.panel-heading-twitch{
+    background-color: #4B0082;
+    color: #FFF;
+}

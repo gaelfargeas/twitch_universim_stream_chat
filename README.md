@@ -3,6 +3,9 @@ stream chat for the universim game
 
 [![PyPI](https://img.shields.io/pypi/l/simplelogging.svg)](https://github.com/gaelfargeas/twitch_universim_streamer_chat/blob/master/LICENSE)
 
+![main page](index.png)
+
+![logged](logged.png)
 
 ## Prerequis :
 
